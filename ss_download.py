@@ -47,7 +47,7 @@ def retrieve_forecast(baseUrl, timesteps, requestHeaders, latitude, longitude, e
     req.encoding = 'utf-8'
     #write to da json file :)
     with open("ss_data.json", "w") as outfile:
-        outfile.write(req)
+        outfile.write(req.text)
 
 if __name__ == "__main__":
 

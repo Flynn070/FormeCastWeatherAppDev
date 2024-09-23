@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -10,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using Python.Runtime;
 
 
@@ -26,13 +28,23 @@ namespace FormeCastWeatherApp
 
 
             //gets api to return recent data to ss_data.json
-            using (Py.GIL())
-            {
-                PythonEngine.Initialize();
-                dynamic ss_download = Py.Import("MetAPI.ss_download");
-                dynamic ss_geojson = ss_download.retrieve_forecast();
-                PythonEngine.Shutdown();
-            }
+            pythonExeDir dir = new();
+            string currentDir = System.AppDomain.CurrentDomain.BaseDirectory;
+            Process ss_download = new();
+                ss_download.StartInfo = new ProcessStartInfo
+                {
+                    FileName = dir.getDirectory(),
+                    Arguments = string.Format(currentDir + "../../../ss_download.py"),  //TODO THIS DOESNT WORK YET IT DOESNT ACTUALLY RUN!!!
+                    UseShellExecute = false,
+                    //RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                };
+
+                ss_download.Start();
+                ss_download.WaitForExit();
+            MessageBox.Show("completed download");
+
+            
 
             //TODO write error messages and stuff like that :>
         }
@@ -47,10 +59,6 @@ namespace FormeCastWeatherApp
             
             Download_SS();
 
-            using (FileStream fs = File.Open("ss_data.json", FileMode.Open, FileAccess.Read))
-            {
-                string ss_data = JsonSerializer.Serialize(fs);
-            }
             
             //TODO write data into Forecast class
             //TODO display data from json

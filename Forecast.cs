@@ -12,42 +12,42 @@ namespace FormeCastWeatherApp
         private string time = "";
 
         //various temps
-        float screenTemperature;
-        float maxScreenAirTemp;
-        float minScreenAirTemp;
+        private float screenTemperature;
+        private float maxScreenAirTemp;
+        private float minScreenAirTemp;
         //temp air needs to be cooled to in order to achieve 100% humidity (??)
-        float screenDewPointTemperature;
-        float feelsLikeTemperature;
+        private float screenDewPointTemperature;
+        private float feelsLikeTemperature;
 
         //wind
-        float windSpeed10m;
-        float windDirectionFrom10m;
-        float windGustSpeed10m;
-        float max10mWindGust;
+        private float windSpeed10m;
+        private float windDirectionFrom10m;
+        private float windGustSpeed10m;
+        private float max10mWindGust;
 
         //humidity
-        float visibility;
-        float screenRelativeHumidity;
+        private float visibility;
+        private float screenRelativeHumidity;
 
         //mean sea level pressure
-        float mslp; 
+        private float mslp;
 
-        int uvIndex;
+        private int uvIndex;
 
         // -1 to 30, different meanings for all
-        int significantWeatherCode;
+        private int significantWeatherCode;
 
         //precipitation
-        float precipitationRate;
-        float totalPrecipAmount;
-        float totalSnowAmount;
-        float probOfPrecipitation;
+        private float precipitationRate;
+        private float totalPrecipAmount;
+        private float totalSnowAmount;
+        private float probOfPrecipitation;
 
         // contains definitions for all 30 codes, -1 will read correctly from the end of array :)
-        string[] sigWeatherCodes = { "Clear night", "Sunny day", "Partly cloudy (night)", "Partly cloudy (day)", "Not Used", "Mist", "Fog", "Cloudy", "Overcast", "Light rain shower (night)", "Light rain shower (day)", "Drizzle", "Light rain", "Heavy rain shower (night)", "Heavy rain shower (day)", "Heavy rain", "Sleet shower (night)", "Sleet shower (day)", "Sleet", "Hail shower (night)", "Hail shower (day)", "Hail", "Light snow shower (night)", "Light snow shower (day)", "Light snow", "Heavy snow shower (night)", "Heavy snow shower (day)", "Heavy snow", "Thunder shower (night)", "Thunder shower (day)", "Thunder", "Trace rain"};
-        string significantWeather = "";
+        private string[] sigWeatherCodes = { "Clear night", "Sunny day", "Partly cloudy (night)", "Partly cloudy (day)", "Not Used", "Mist", "Fog", "Cloudy", "Overcast", "Light rain shower (night)", "Light rain shower (day)", "Drizzle", "Light rain", "Heavy rain shower (night)", "Heavy rain shower (day)", "Heavy rain", "Sleet shower (night)", "Sleet shower (day)", "Sleet", "Hail shower (night)", "Hail shower (day)", "Hail", "Light snow shower (night)", "Light snow shower (day)", "Light snow", "Heavy snow shower (night)", "Heavy snow shower (day)", "Heavy snow", "Thunder shower (night)", "Thunder shower (day)", "Thunder", "Trace rain"};
+        private string significantWeather = "";
 
-        string uvIndexAdvice = "";
+        private string uvIndexAdvice = "";
 
 
         public void SetSignificantWeatherCode(int NewCode)
@@ -77,7 +77,7 @@ namespace FormeCastWeatherApp
             }
             else
             {
-                this.uvIndexAdvice = "Extreme. Avoid being outside during midday hours. Shirt, sunscreen and hat essential."
+                this.uvIndexAdvice = "Extreme. Avoid being outside during midday hours. Shirt, sunscreen and hat essential.";
             }
         }
 
