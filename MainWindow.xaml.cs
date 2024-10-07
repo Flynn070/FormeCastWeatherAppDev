@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -31,23 +32,40 @@ namespace FormeCastWeatherApp
             pythonExeDir dir = new();
             string currentDir = System.AppDomain.CurrentDomain.BaseDirectory;
             Process ss_download = new();
-                ss_download.StartInfo = new ProcessStartInfo
+            ss_download.StartInfo = new ProcessStartInfo
                 {
                     FileName = dir.getDirectory(),
-                    Arguments = string.Format(currentDir + "../../../ss_download.py"),  //TODO THIS DOESNT WORK YET IT DOESNT ACTUALLY RUN!!!
+                    WorkingDirectory = System.IO.Path.GetFullPath(System.IO.Path.Combine(currentDir, @"..\..\..\")),
+                    Arguments = @"py ss_download.py",  //TODO THIS DOESNT WORK YET IT DOESNT ACTUALLY RUN!!!
                     UseShellExecute = false,
-                    //RedirectStandardOutput = true,
-                    CreateNoWindow = true
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = false,
                 };
+            ss_download.ErrorDataReceived += ss_download_ErrorDataReceived;
+            ss_download.OutputDataReceived += ss_download_OutputDataReceived;
 
-                ss_download.Start();
-                ss_download.WaitForExit();
+            ss_download.Start();
+            ss_download.BeginErrorReadLine();
+            ss_download.BeginOutputReadLine();
+            ss_download.WaitForExit();
             MessageBox.Show("completed download");
 
             
 
             //TODO write error messages and stuff like that :>
         }
+
+        private static void ss_download_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine(e);
+        }
+
+        private static void ss_download_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine(e);
+        }
+
         public MainWindow()
         {
             InitializeComponent();

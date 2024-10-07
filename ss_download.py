@@ -49,7 +49,11 @@ def retrieve_forecast(baseUrl, timesteps, requestHeaders, latitude, longitude, e
     with open("ss_data.json", "w") as outfile:
         outfile.write(req.text)
 
+    print("finished running!!")
+
 if __name__ == "__main__":
+
+    print("started running!")
 
     #gets config from json and loads
     with open("apiConfig.json", "r") as openfile:
