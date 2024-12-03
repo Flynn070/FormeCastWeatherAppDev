@@ -23,6 +23,20 @@ namespace FormeCastWeatherApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static GeoJson.Root readGeoJson()
+        {
+            string jsonString = File.ReadAllText(@"..\..\..\ss_data.json");
+            GeoJson.Root forecast = JsonSerializer.Deserialize<GeoJson.Root>(jsonString)!;
+            return forecast;
+
+        }
+        public static bool weatherUpToDate()
+        {
+            GeoJson.Root forecast = readGeoJson();
+            String date = DateTime.UtcNow.ToString("o", System.Globalization.CultureInfo.InvariantCulture);
+            date = date.Remove(14, 13).Insert(14, "00");                                                                //removes time more specific than hour
+            return (forecast.features[0].properties.modelRunDate == date);
+        }
         public static void Download_SS()
         {
             //TODO check if data needs updating (access 1st entry of json & compare to current time)
@@ -34,13 +48,13 @@ namespace FormeCastWeatherApp
             Process ss_download = new();
             ss_download.StartInfo = new ProcessStartInfo
                 {
-                    FileName = dir.getDirectory(),
-                    WorkingDirectory = System.IO.Path.GetFullPath(System.IO.Path.Combine(currentDir, @"..\..\..\")),
-                    Arguments = @"py ss_download.py",  //TODO THIS DOESNT WORK YET IT DOESNT ACTUALLY RUN!!!
+                    FileName = dir.getDirectory(),                                                                      //gets the directory of the current python install
+                    WorkingDirectory = System.IO.Path.GetFullPath(System.IO.Path.Combine(currentDir, @"..\..\..\")),    //sets the directory ss_download.py is located in
+                    Arguments = @"ss_download.py",  
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                 };
             ss_download.ErrorDataReceived += ss_download_ErrorDataReceived;
             ss_download.OutputDataReceived += ss_download_OutputDataReceived;
@@ -49,7 +63,7 @@ namespace FormeCastWeatherApp
             ss_download.BeginErrorReadLine();
             ss_download.BeginOutputReadLine();
             ss_download.WaitForExit();
-            MessageBox.Show("completed download");
+            MessageBox.Show("completed download");  //TODO make this a little notification
 
             
 
@@ -80,6 +94,11 @@ namespace FormeCastWeatherApp
             
             //TODO write data into Forecast class
             //TODO display data from json
+        }
+
+        private void checkCurrent_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(weatherUpToDate());
         }
     }
 }

@@ -1,13 +1,37 @@
-﻿<Window x:Class="FormeCastWeatherApp.MainWindow"
+﻿<Window x:Name="window" x:Class="FormeCastWeatherApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormeCastWeatherApp"
+        xmlns:converter="clr-namespace:FormeCastWeatherApp.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="btnGetWeather" Content="Get Weather" HorizontalAlignment="Left" Margin="685,47,0,0" VerticalAlignment="Top" Click="btnGetWeather_Click"/>
+    <Window.Resources>
+        <converter:CurrentForecastWidth x:Key="CurrentForecastWidth"/>
+        <converter:hourlyForecastsWidth x:Key="hourlyForecastsWidth"/>
+        <converter:hourlyForecastsHeight x:Key="hourlyForecastsHeight"/>
+        <converter:hourlyForecastsMargin x:Key="hourlyForecastsMargin"/>
+    </Window.Resources>
+    <Grid x:Name="grid">
+        <Button x:Name="btnGetWeather" Content="Get Weather" HorizontalAlignment="Left" Margin="10,352,0,0" VerticalAlignment="Top" Click="btnGetWeather_Click"/>
+        <Button x:Name="checkCurrent" Content="Check current" HorizontalAlignment="Left" Margin="10,327,0,0" VerticalAlignment="Top" Click="checkCurrent_Click"/>
+        <GroupBox x:Name="grpCurrentForecast" VerticalAlignment="Top" HorizontalAlignment="Left" Width="{Binding ActualHeight, ElementName=grpCurrentForecast}" Background="#FF5B5B5B" Margin="10,10,0,0">
+            <GroupBox.Height>
+                <MultiBinding Converter="{StaticResource CurrentForecastWidth}" ConverterParameter="FormatLastFirst">
+                    <Binding Path="ActualHeight" ElementName="window"/>
+                    <Binding Path="ActualWidth" ElementName="window"/>
+                </MultiBinding>
+            </GroupBox.Height>
+        </GroupBox>
+        <ScrollViewer x:Name="scrvrHourlyForecasts" Margin="{Binding ActualHeight, ElementName=grpCurrentForecast, Converter={StaticResource hourlyForecastsMargin}}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Right" Height="{Binding ActualHeight, ElementName=grpCurrentForecast, Converter={StaticResource hourlyForecastsHeight}}" Background="Black" VerticalAlignment="Top">
+            <ScrollViewer.Width>
+                <MultiBinding Converter="{StaticResource hourlyForecastsWidth}" ConverterParameter="FormatLastFirst">
+                    <Binding Path="ActualWidth" ElementName="grpCurrentForecast"/>
+                    <Binding Path="ActualWidth" ElementName="window"/>
+                </MultiBinding>
+            </ScrollViewer.Width>
+        </ScrollViewer>
 
     </Grid>
 </Window>

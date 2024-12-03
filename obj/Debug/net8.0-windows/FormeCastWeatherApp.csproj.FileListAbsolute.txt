@@ -22,3 +22,4 @@ D:\Documents\GitHub\FormeCastWeatherApp\FormeCastWeatherApp\obj\Debug\net8.0-win
 D:\Documents\GitHub\FormeCastWeatherApp\FormeCastWeatherApp\obj\Debug\net8.0-windows\FormeCastWeatherApp.pdb
 D:\Documents\GitHub\FormeCastWeatherApp\FormeCastWeatherApp\obj\Debug\net8.0-windows\FormeCastWeatherApp.genruntimeconfig.cache
 D:\Documents\GitHub\FormeCastWeatherApp\FormeCastWeatherApp\obj\Debug\net8.0-windows\ref\FormeCastWeatherApp.dll
+D:\Documents\GitHub\FormeCastWeatherApp\FormeCastWeatherApp\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
